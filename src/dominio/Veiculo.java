@@ -14,6 +14,7 @@ public class Veiculo {
     private String Placa;
     private int TipoCombustivel;
     private float Litros;
+    private Veiculo anterior;
 
     public String getPlaca() {
         return Placa;
@@ -32,6 +33,12 @@ public class Veiculo {
     }
     public void setLitros(float Litros) {
         this.Litros = Litros;
+    }
+    public Veiculo getAnterior() {
+        return anterior;
+    }
+    public void setAnterior(Veiculo anterior) {
+        this.anterior = anterior;
     }
     
     
