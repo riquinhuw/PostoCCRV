@@ -63,7 +63,36 @@ public class ListaCombustivel {
     Incluir(combustivel);    
     }
 
-
+    // sei que tem uma forma de automizar isso, criando uma variavel "codigo", contendo o .getProximo()
+    // Que vai seguindo um While até achar o certo, enquanto não, ele vai concatenando .getProximo até acha-lo
+    public String Consultar(int codigo){
+        String retorno = new String();
+        if(inicio.getCodigo() == codigo){
+            retorno = inicio.getCodigo() + "-" + inicio.getDescricao()+" - Vendeu:" + inicio.getQuantidade()+"L";
+        }else{
+            if(inicio.getProximo().getCodigo()== codigo){
+                retorno = inicio.getProximo().getCodigo() + "-" + inicio.getProximo().getDescricao()+" - Vendeu:" + inicio.getProximo().getQuantidade()+"L";
+                }else{
+                    if(inicio.getProximo().getProximo().getCodigo() == codigo){
+                       retorno = inicio.getProximo().getProximo().getCodigo() + "-" + inicio.getProximo().getProximo().getDescricao()+" - Vendeu:" + inicio.getProximo().getProximo().getQuantidade()+"L"; 
+                    }else{
+                        if(inicio.getProximo().getProximo().getProximo().getCodigo() == codigo){
+                            retorno = inicio.getProximo().getProximo().getProximo().getCodigo() + "-" + inicio.getProximo().getProximo().getProximo().getDescricao()+" - Vendeu:" + inicio.getProximo().getProximo().getProximo().getQuantidade()+"L";
+                        }else{retorno = "Numero invalido, tente novamente";}
+                    }
+            }
+        }
+    
+    return retorno;
+    }
+    
+    public void Limpar(){//Zera o valor que foi vendido de Litros
+    inicio.setQuantidade(0);
+    inicio.getProximo().setQuantidade(0);
+    inicio.getProximo().getProximo().setQuantidade(0);
+    inicio.getProximo().getProximo().getProximo().setQuantidade(0);
+    
+    }
 
     
     
