@@ -4,18 +4,39 @@
  * and open the template in the editor.
  */
 package telas;
+import dados.ListaCombustivel;
+import dados.FilaVeiculo;
+import dominio.Combustivel;
+import dominio.Veiculo;
 
 /**
  *
  * @author riqui
  */
 public class TelaAbastecimento extends javax.swing.JFrame {
+    private ListaCombustivel listaCombustivel = null;
+    private FilaVeiculo filaVeiculo = null;
 
     /**
      * Creates new form TelaAbastecimento
      */
     public TelaAbastecimento() {
         initComponents();
+        
+        listaCombustivel = new ListaCombustivel();
+        filaVeiculo = new FilaVeiculo();
+        listaCombustivel.CriarCombustiveis();
+    }
+    
+    public void ListarFilaCarros(){
+    Veiculo carro = filaVeiculo.getPrimeiro();
+    txtFila.setText("");
+        for (int x=0;x<4;x++){
+            txtFila.append(carro.getPlaca() + "\n");
+            carro = carro.getAnterior();        
+            x++;
+        }
+        
     }
 
     /**
@@ -39,9 +60,9 @@ public class TelaAbastecimento extends javax.swing.JFrame {
         jProgressBar1 = new javax.swing.JProgressBar();
         lblPorcentagem = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        txtCombustivel = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtFila = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,11 +132,11 @@ public class TelaAbastecimento extends javax.swing.JFrame {
         lblPorcentagem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblPorcentagem.setText("X de 25");
 
-        jScrollPane1.setViewportView(jTextPane1);
+        jScrollPane1.setViewportView(txtCombustivel);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtFila.setColumns(20);
+        txtFila.setRows(5);
+        jScrollPane2.setViewportView(txtFila);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -265,11 +286,11 @@ public class TelaAbastecimento extends javax.swing.JFrame {
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel lblCombustivel;
     private javax.swing.JLabel lblFila;
     private javax.swing.JLabel lblPorcentagem;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextPane txtCombustivel;
+    private javax.swing.JTextArea txtFila;
     // End of variables declaration//GEN-END:variables
 }
