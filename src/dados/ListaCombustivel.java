@@ -40,7 +40,7 @@ public class ListaCombustivel {
     }
 
     public void Incluir(Combustivel combustivel) {
-        if (combustivel == null) {//nao tem incio ainda, ele vai se setar como primeiro
+        if (inicio == null) {//nao tem incio ainda, ele vai se setar como primeiro
             inicio = combustivel;
         } else {// já tem alguem na lista
             fim.setProximo(combustivel);

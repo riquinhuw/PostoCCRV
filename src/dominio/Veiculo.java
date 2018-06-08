@@ -15,6 +15,8 @@ public class Veiculo {
     private int TipoCombustivel;
     private float Litros;
     private Veiculo anterior;
+    
+    public Veiculo(){}
 
     public String getPlaca() {
         return Placa;

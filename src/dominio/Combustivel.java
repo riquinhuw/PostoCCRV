@@ -11,29 +11,29 @@ package dominio;
  */
 public class Combustivel {
     
-     private int Codigo;
-     private String Descricao;
-     private float Quantidade;
+     private int codigo;
+     private String descricao;
+     private float quantidade;
      private Combustivel proximo;
 
    
     public int getCodigo() {
-        return Codigo;
+        return codigo;
     }
     public void setCodigo(int Codigo) {
-        this.Codigo = Codigo;
+        this.codigo = Codigo;
     }    
     public String getDescricao() {
-        return Descricao;
+        return descricao;
     }
     public void setDescricao(String Descricao) {
-        this.Descricao = Descricao;
+        this.descricao = Descricao;
     }    
     public float getQuantidade() {
-        return Quantidade;
+        return quantidade;
     }    
     public void setQuantidade(float Quantidade) {
-        this.Quantidade = Quantidade;
+        this.quantidade = Quantidade;
     }
     public Combustivel getProximo() {
         return proximo;
@@ -43,8 +43,8 @@ public class Combustivel {
     }
     
     public void Combustivel(){
-    Quantidade = 0;    
-        
+    quantidade = 0;   
+    proximo = null;
     }
     
     

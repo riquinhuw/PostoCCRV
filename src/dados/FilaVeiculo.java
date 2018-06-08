@@ -44,7 +44,7 @@ public class FilaVeiculo {
     if(primeiro == null){
     primeiro = veiculo;
     }else{
-        primeiro.setAnterior(veiculo);        
+        ultimo.setAnterior(veiculo);        
     }
     
     quantidade++;

@@ -8,6 +8,8 @@ import dados.ListaCombustivel;
 import dados.FilaVeiculo;
 import dominio.Combustivel;
 import dominio.Veiculo;
+import telas.TelaVeiculo;
+import telas.PopupVeiculo; // LEMBRAR DE LIMPAR ESSA BAGAÇA SE NAO USAR
 
 /**
  *
@@ -16,6 +18,9 @@ import dominio.Veiculo;
 public class TelaAbastecimento extends javax.swing.JFrame {
     private ListaCombustivel listaCombustivel = null;
     private FilaVeiculo filaVeiculo = null;
+    private Veiculo veiculoSwap = null;
+    private TelaVeiculo telaVeiculo = null;
+    private PopupVeiculo popupVeiculo = null; // LEMBRAR DE LIMPAR ESSA BAGAÇA SE NAO USAR
 
     /**
      * Creates new form TelaAbastecimento
@@ -26,9 +31,12 @@ public class TelaAbastecimento extends javax.swing.JFrame {
         listaCombustivel = new ListaCombustivel();
         filaVeiculo = new FilaVeiculo();
         listaCombustivel.CriarCombustiveis();
+        veiculoSwap = new Veiculo();
+        telaVeiculo = new TelaVeiculo();
+        popupVeiculo = new PopupVeiculo(); // LEMBRAR DE LIMPAR ESSA BAGAÇA SE NAO USAR
     }
     
-    public void ListarFilaCarros(){
+    public void ListarFilaCarros(){// adaptar o laço for para a quantidade de carros que tem na fila
     Veiculo carro = filaVeiculo.getPrimeiro();
     txtFila.setText("");
         for (int x=0;x<4;x++){
@@ -37,6 +45,15 @@ public class TelaAbastecimento extends javax.swing.JFrame {
             x++;
         }
         
+    }
+    
+    public void preencheLista(FilaVeiculo lista){
+        Veiculo novo = lista.getPrimeiro() ;
+        txtFila.setText(""); // Limpa texto
+        while(novo != null){
+            txtFila.append(novo.toString() + "\n");
+            novo = novo.getAnterior();
+        }
     }
 
     /**
@@ -219,6 +236,10 @@ public class TelaAbastecimento extends javax.swing.JFrame {
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
         // TODO add your handling code here:
+        telaVeiculo.Teste();
+        filaVeiculo.Incluir(telaVeiculo.GetCar());
+     //   telaVeiculo.ZerarCar();
+        
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAbastecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbastecerActionPerformed
@@ -231,6 +252,8 @@ public class TelaAbastecimento extends javax.swing.JFrame {
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         // TODO add your handling code here:
+        //preencheLista(filaVeiculo);
+        ListarFilaCarros();
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
