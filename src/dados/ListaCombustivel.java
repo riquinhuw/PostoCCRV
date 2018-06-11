@@ -52,16 +52,16 @@ public class ListaCombustivel {
 
     public void CriarCombustiveis() {// para facilitar o uso da aplicação, vamos criar um botão para criar os combustiveis
         Combustivel combustivel = new Combustivel();
-        combustivel.setCodigo(1);
+        combustivel.setCodigo(0);
         combustivel.setDescricao("Gasolina");
         Incluir(combustivel);
-        combustivel.setCodigo(2);
+        combustivel.setCodigo(1);
         combustivel.setDescricao("Alcool");
         Incluir(combustivel);
-        combustivel.setCodigo(3);
+        combustivel.setCodigo(2);
         combustivel.setDescricao("Diesel");
         Incluir(combustivel);
-        combustivel.setCodigo(4);
+        combustivel.setCodigo(3);
         combustivel.setDescricao("Gas");
         Incluir(combustivel);
     }
@@ -71,18 +71,18 @@ public class ListaCombustivel {
     public String Consultar(int codigo) {
         String retorno = new String();
         if (inicio.getCodigo() == codigo) {
-            retorno = inicio.getCodigo() + "-" + inicio.getDescricao() + " - Vendeu:" + inicio.getQuantidade() + "L";
+            retorno = inicio.getCodigo() + "-" + inicio.getDescricao() + " - Vendeu:" + inicio.getQuantidade() + "L"+"\n";
         } else {
             if (inicio.getProximo().getCodigo() == codigo) {
-                retorno = inicio.getProximo().getCodigo() + "-" + inicio.getProximo().getDescricao() + " - Vendeu:" + inicio.getProximo().getQuantidade() + "L";
+                retorno = inicio.getProximo().getCodigo() + "-" + inicio.getProximo().getDescricao() + " - Vendeu:" + inicio.getProximo().getQuantidade() + "L"+"\n";
             } else {
                 if (inicio.getProximo().getProximo().getCodigo() == codigo) {
-                    retorno = inicio.getProximo().getProximo().getCodigo() + "-" + inicio.getProximo().getProximo().getDescricao() + " - Vendeu:" + inicio.getProximo().getProximo().getQuantidade() + "L";
+                    retorno = inicio.getProximo().getProximo().getCodigo() + "-" + inicio.getProximo().getProximo().getDescricao() + " - Vendeu:" + inicio.getProximo().getProximo().getQuantidade() + "L"+"\n";
                 } else {
                     if (inicio.getProximo().getProximo().getProximo().getCodigo() == codigo) {
-                        retorno = inicio.getProximo().getProximo().getProximo().getCodigo() + "-" + inicio.getProximo().getProximo().getProximo().getDescricao() + " - Vendeu:" + inicio.getProximo().getProximo().getProximo().getQuantidade() + "L";
+                        retorno = inicio.getProximo().getProximo().getProximo().getCodigo() + "-" + inicio.getProximo().getProximo().getProximo().getDescricao() + " - Vendeu:" + inicio.getProximo().getProximo().getProximo().getQuantidade() + "L"+"\n";
                     } else {
-                        retorno = "Numero invalido, tente novamente";
+                        retorno = "Numero invalido, tente novamente"+"\n";
                     }
                 }
             }
@@ -100,18 +100,18 @@ public class ListaCombustivel {
     }
 
     public void Abastecer(int codigoAbastecer, float litros) {
-
+        
         if (inicio.getCodigo() == codigoAbastecer) {
-            inicio.setQuantidade(litros);
+            inicio.setQuantidade(inicio.getQuantidade()+litros);
         } else {
             if (inicio.getProximo().getCodigo() == codigoAbastecer) {
-                inicio.getProximo().setQuantidade(litros);
+                inicio.getProximo().setQuantidade(inicio.getQuantidade()+litros);
             } else {
                 if (inicio.getProximo().getProximo().getCodigo() == codigoAbastecer) {
-                    inicio.getProximo().getProximo().setQuantidade(litros);
+                    inicio.getProximo().getProximo().setQuantidade(inicio.getQuantidade()+litros);
                 } else {
                     if (inicio.getProximo().getProximo().getProximo().getCodigo() == codigoAbastecer) {
-                        inicio.getProximo().getProximo().getProximo().setQuantidade(litros);
+                        inicio.getProximo().getProximo().getProximo().setQuantidade(inicio.getQuantidade()+litros);
                     } else {
                         // Criar popup de errro de nao por o tipo certo
                     }

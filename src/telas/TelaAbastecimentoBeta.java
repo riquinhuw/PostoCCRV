@@ -15,32 +15,36 @@ import telas.PopupVeiculo; // LEMBRAR DE LIMPAR ESSA BAGAÇA SE NAO USAR
  *
  * @author riqui
  */
-public class TelaAbastecimento extends javax.swing.JFrame {
+    public class TelaAbastecimentoBeta extends javax.swing.JFrame {
     private ListaCombustivel listaCombustivel = null;
     private FilaVeiculo filaVeiculo = null;
     private Veiculo veiculoSwap = null;
-    private TelaVeiculo telaVeiculo = null;
+    //private TelaVeiculo telaVeiculo = null;
     private PopupVeiculo popupVeiculo = null; // LEMBRAR DE LIMPAR ESSA BAGAÇA SE NAO USAR
 
     /**
      * Creates new form TelaAbastecimento
      */
-    public TelaAbastecimento() {
+    public TelaAbastecimentoBeta() {
         initComponents();
         
         listaCombustivel = new ListaCombustivel();
         filaVeiculo = new FilaVeiculo();
         listaCombustivel.CriarCombustiveis();
         veiculoSwap = new Veiculo();
-        telaVeiculo = new TelaVeiculo();
+        //telaVeiculo = new TelaVeiculo();
         popupVeiculo = new PopupVeiculo(); // LEMBRAR DE LIMPAR ESSA BAGAÇA SE NAO USAR
     }
     
     public void ListarFilaCarros(){// adaptar o laço for para a quantidade de carros que tem na fila
     Veiculo carro = filaVeiculo.getPrimeiro();
+    int quantidade = filaVeiculo.getQuantidade();
+    int x = 0;
+    String tipo;
     txtFila.setText("");
-        for (int x=0;x<4;x++){
-            txtFila.append(carro.getPlaca() + "\n");
+        while (x<quantidade){
+            if(carro.getTipoCombustivel()==0){tipo = "Gasolina";}else{if(carro.getTipoCombustivel()==1){tipo = "Alcool";}else{if(carro.getTipoCombustivel()==2){tipo ="Diesel";}else{tipo="Gas";}}}
+            txtFila.append(carro.getPlaca()+"  "+tipo+" "+carro.getLitros()+"L" + "\n");
             carro = carro.getAnterior();        
             x++;
         }
@@ -76,10 +80,16 @@ public class TelaAbastecimento extends javax.swing.JFrame {
         btnLimpar = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
         lblPorcentagem = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtCombustivel = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtFila = new javax.swing.JTextArea();
+        lblPlaca = new java.awt.Label();
+        cbxCombustivel = new javax.swing.JComboBox<>();
+        lblCombustiveltxt = new javax.swing.JLabel();
+        lblLitros = new javax.swing.JLabel();
+        txtfPlaca = new javax.swing.JTextField();
+        txtfLitros = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtCombustivel = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,7 +119,7 @@ public class TelaAbastecimento extends javax.swing.JFrame {
         });
 
         btnAlterar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnAlterar.setText("Alterar");
+        btnAlterar.setText("Alterar*");
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlterarActionPerformed(evt);
@@ -142,19 +152,38 @@ public class TelaAbastecimento extends javax.swing.JFrame {
 
         jProgressBar1.setBackground(new java.awt.Color(153, 255, 255));
         jProgressBar1.setMaximum(25);
-        jProgressBar1.setValue(10);
         jProgressBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jProgressBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jProgressBar1.setName(""); // NOI18N
 
         lblPorcentagem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblPorcentagem.setText("X de 25");
-
-        jScrollPane1.setViewportView(txtCombustivel);
+        lblPorcentagem.setText("0 de 25");
 
         txtFila.setColumns(20);
         txtFila.setRows(5);
         jScrollPane2.setViewportView(txtFila);
+
+        lblPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblPlaca.setText("Placa:");
+
+        cbxCombustivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gasolina", "Alcool", "Diesel", "Gas" }));
+
+        lblCombustiveltxt.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblCombustiveltxt.setText("Combustivel:");
+
+        lblLitros.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblLitros.setText("Litros:");
+
+        txtfPlaca.setText("UFG-2018");
+        txtfPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtfPlacaActionPerformed(evt);
+            }
+        });
+
+        txtCombustivel.setColumns(20);
+        txtCombustivel.setRows(5);
+        jScrollPane3.setViewportView(txtCombustivel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,30 +205,47 @@ public class TelaAbastecimento extends javax.swing.JFrame {
                                 .addComponent(lblPorcentagem)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnInserir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAbastecer)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnConsultar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnLimpar)))
-                        .addGap(36, 36, 36))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(230, 230, 230)
-                .addComponent(lblTitulo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnInserir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAbastecer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
+                        .addComponent(btnConsultar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLimpar)
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(lblFila)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblCombustivel)
                 .addGap(70, 70, 70))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(230, 230, 230)
+                        .addComponent(lblTitulo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblCombustiveltxt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxCombustivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblLitros)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtfLitros))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtfPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,14 +253,27 @@ public class TelaAbastecimento extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblTitulo)
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCombustivel)
-                    .addComponent(lblFila))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCombustivel)
+                            .addComponent(lblFila))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))
+                        .addGap(28, 28, 28)
+                        .addComponent(lblPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtfPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxCombustivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCombustiveltxt))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblLitros)
+                    .addComponent(txtfLitros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInserir)
                     .addComponent(btnAbastecer)
@@ -237,14 +296,42 @@ public class TelaAbastecimento extends javax.swing.JFrame {
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
         // TODO add your handling code here:
-        telaVeiculo.Teste();
-        filaVeiculo.Incluir(telaVeiculo.GetCar());
+        // OBS veiculoSwap estava dando bug por algum motivo
+        Veiculo carrao = new Veiculo();
+        carrao.setPlaca(txtfPlaca.getText());
+        //veiculoSwap.setPlaca(txtfPlaca.getText());
+        carrao.setLitros(Float.parseFloat(txtfLitros.getText()));
+        //veiculoSwap.setLitros(Float.parseFloat(txtfLitros.getText()));
+        //veiculoSwap.setTipoCombustivel(cbxCombustivel.getSelectedIndex());
+        carrao.setTipoCombustivel(cbxCombustivel.getSelectedIndex());
+        filaVeiculo.Incluir(carrao);
+        //filaVeiculo.Incluir(veiculoSwap);
+        txtfPlaca.setText("");
+        txtfLitros.setText("");
+        veiculoSwap = null;
+        jProgressBar1.setValue(filaVeiculo.getQuantidade());
+        lblPorcentagem.setText(filaVeiculo.getQuantidade() +" de 25");
      //   telaVeiculo.ZerarCar();
         
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAbastecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbastecerActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+       /* if(filaVeiculo.getPrimeiro().getTipoCombustivel()==0){listaCombustivel.Abastecer(filaVeiculo.getPrimeiro().getTipoCombustivel(),filaVeiculo.getPrimeiro().getLitros());
+        }else{if(filaVeiculo.getPrimeiro().getTipoCombustivel()==1){
+                listaCombustivel.Abastecer(filaVeiculo.getPrimeiro().getTipoCombustivel(),filaVeiculo.getPrimeiro().getLitros());
+                }else{if(filaVeiculo.getPrimeiro().getTipoCombustivel()==2){
+                        listaCombustivel.Abastecer(filaVeiculo.getPrimeiro().getTipoCombustivel(),filaVeiculo.getPrimeiro().getLitros());
+                        }else{listaCombustivel.Abastecer(filaVeiculo.getPrimeiro().getTipoCombustivel(),filaVeiculo.getPrimeiro().getLitros());}
+                    }
+            }*/
+        listaCombustivel.Abastecer(filaVeiculo.getPrimeiro().getTipoCombustivel(),filaVeiculo.getPrimeiro().getLitros());
+        filaVeiculo.Abastecer();
+        
+        
+        filaVeiculo.setQuantidade(filaVeiculo.getQuantidade()-1);
+        jProgressBar1.setValue(filaVeiculo.getQuantidade());
+        lblPorcentagem.setText(filaVeiculo.getQuantidade()+" de 25");
     }//GEN-LAST:event_btnAbastecerActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
@@ -258,12 +345,22 @@ public class TelaAbastecimento extends javax.swing.JFrame {
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        // TODO add your handling code here:
+        Combustivel inicio = listaCombustivel.getInicio();
+        txtCombustivel.setText("");
+        txtCombustivel.append("Gasolina"+ " - Vendeu:" + inicio.getQuantidade() + "L"+"\n");
+        txtCombustivel.append("Alcool"+ " - Vendeu:" + inicio.getProximo().getQuantidade() + "L"+"\n");
+        txtCombustivel.append("Diesel"+ " - Vendeu:" + inicio.getProximo().getProximo().getQuantidade() + "L"+"\n");
+        txtCombustivel.append("Gás"+  " - Vendeu:" + inicio.getProximo().getProximo().getProximo().getQuantidade() + "L"+"\n");
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // TODO add your handling code here:
+        txtCombustivel.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void txtfPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfPlacaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtfPlacaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -282,20 +379,21 @@ public class TelaAbastecimento extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaAbastecimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAbastecimentoBeta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaAbastecimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAbastecimentoBeta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaAbastecimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAbastecimentoBeta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaAbastecimento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaAbastecimentoBeta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaAbastecimento().setVisible(true);
+                new TelaAbastecimentoBeta().setVisible(true);
             }
         });
     }
@@ -307,14 +405,20 @@ public class TelaAbastecimento extends javax.swing.JFrame {
     private javax.swing.JButton btnInserir;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnListar;
+    private javax.swing.JComboBox<String> cbxCombustivel;
     private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblCombustivel;
+    private javax.swing.JLabel lblCombustiveltxt;
     private javax.swing.JLabel lblFila;
+    private javax.swing.JLabel lblLitros;
+    private java.awt.Label lblPlaca;
     private javax.swing.JLabel lblPorcentagem;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextPane txtCombustivel;
+    private javax.swing.JTextArea txtCombustivel;
     private javax.swing.JTextArea txtFila;
+    private javax.swing.JTextField txtfLitros;
+    private javax.swing.JTextField txtfPlaca;
     // End of variables declaration//GEN-END:variables
 }

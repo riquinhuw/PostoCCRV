@@ -32,6 +32,13 @@ public class TelaVeiculo extends javax.swing.JFrame {
     }
     
     public void ZerarCar(){carroSwap = null;}
+    
+    public Veiculo inserir(){
+        carroSwap.setPlaca(txtfPlaca.getText());
+        carroSwap.setLitros(Float.parseFloat(txtfLitros.getText()));
+        carroSwap.setTipoCombustivel(cbxCombustivel.getSelectedIndex());
+        return carroSwap;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
